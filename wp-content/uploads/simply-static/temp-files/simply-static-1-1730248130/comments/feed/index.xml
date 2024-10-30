@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Dizdar &#8211; Şimşek Hukuk Bürosu için yorumlar	</title>
+	<atom:link href="https://slymnsmh.github.io/dizdarsimsekhukuk/comments/feed/" rel="self" type="application/rss+xml" />
+	<link>https://slymnsmh.github.io/dizdarsimsekhukuk</link>
+	<description></description>
+	<lastBuildDate>Sat, 26 Oct 2024 23:49:00 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.6.2</generator>
+	<item>
+		<title>
+		Merhaba dünya! yazısına Bir WordPress yorumcusu tarafından yapılan yorumlar		</title>
+		<link>https://slymnsmh.github.io/dizdarsimsekhukuk/2024/10/27/merhaba-dunya/#comment-1</link>
+
+		<dc:creator><![CDATA[Bir WordPress yorumcusu]]></dc:creator>
+		<pubDate>Sat, 26 Oct 2024 23:49:00 +0000</pubDate>
+		<guid isPermaLink="false">https://slymnsmh.github.io/dizdarsimsekhukuk/?p=1#comment-1</guid>
+
+					<description><![CDATA[Merhaba, bu bir yorumdur.
+Yorum yönetimine başlamak, düzenlemek ve silmek için lütfen Başlangıç ekranındaki yorumlar bölümüne gidin.
+Yorumcuların avatarları &lt;a href=&quot;https://en.gravatar.com/&quot;&gt;Gravatar&lt;/a&gt; üzerinden alınır.]]></description>
+			<content:encoded><![CDATA[<p>Merhaba, bu bir yorumdur.<br />
+Yorum yönetimine başlamak, düzenlemek ve silmek için lütfen Başlangıç ekranındaki yorumlar bölümüne gidin.<br />
+Yorumcuların avatarları <a href="https://en.gravatar.com/">Gravatar</a> üzerinden alınır.</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		Lorem Ipsum Dolor Sitamet Consectetur yazısına A WordPress Commenter tarafından yapılan yorumlar		</title>
+		<link>https://slymnsmh.github.io/dizdarsimsekhukuk/2021/10/14/hello-world/#comment-2</link>
+
+		<dc:creator><![CDATA[A WordPress Commenter]]></dc:creator>
+		<pubDate>Thu, 14 Oct 2021 08:32:03 +0000</pubDate>
+		<guid isPermaLink="false">https://startersites.io/blocksy/justice/?p=1#comment-2</guid>
+
+					<description><![CDATA[Hi, this is a comment.
+To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
+Commenter avatars come from &lt;a href=&quot;https://gravatar.com&quot;/ rel=&quot;nofollow ugc&quot;&gt;Gravatar&lt;/a&gt;.]]></description>
+			<content:encoded><![CDATA[<p>Hi, this is a comment.<br />
+To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.<br />
+Commenter avatars come from <a href="https://gravatar.com/" rel="nofollow ugc">Gravatar</a>.</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>
