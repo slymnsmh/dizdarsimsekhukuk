@@ -3,13 +3,15 @@
 /*
 Plugin Name: Blocksy Companion
 Description: This plugin is the companion for the Blocksy theme, it runs and adds its enhacements only if the Blocksy theme is installed and active.
-Version: 2.0.75
+Version: 2.0.87
 Author: CreativeThemes
 Author URI: https://creativethemes.com
 Text Domain: blocksy-companion
 Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 6.5
+Requires PHP: 7.0
 */
 if ( !defined( 'ABSPATH' ) ) {
     exit;
@@ -41,9 +43,13 @@ if ( function_exists( 'blc_fs' ) || class_exists( '\\Blocksy\\Plugin' ) ) {
             require_once dirname( __FILE__ ) . '/freemius/start.php';
             $has_account = true;
             $instance = \Freemius::instance( 5115, 'blocksy-companion', true );
-            if ( in_array( 'white-label', get_option( 'blocksy_active_extensions', [] ) ) && ($instance->is_plan( 'agency' ) || $instance->is_plan( 'agency_v2' )) ) {
+            $blocksy_active_extensions = get_option( 'blocksy_active_extensions', [] );
+            if ( !is_array( $blocksy_active_extensions ) ) {
+                $blocksy_active_extensions = [];
+            }
+            if ( in_array( 'white-label', $blocksy_active_extensions ) && ($instance->is_plan( 'agency' ) || $instance->is_plan( 'agency_v2' )) ) {
                 $settings = apply_filters( 'blocksy:ext:white-label:settings', get_option( 'blocksy_ext_white_label_settings', [] ) );
-                if ( $settings && isset( $settings['hide_billing_account'] ) && $settings['hide_billing_account'] ) {
+                if ( $settings && isset( $settings['hide_billing_account'] ) && $settings['hide_billing_account'] && !is_multisite() ) {
                     $has_account = false;
                 }
             }
@@ -87,14 +93,6 @@ if ( function_exists( 'blc_fs' ) || class_exists( '\\Blocksy\\Plugin' ) ) {
     define( 'BLOCKSY_PLUGIN_BASE', plugin_basename( BLOCKSY__FILE__ ) );
     define( 'BLOCKSY_PATH', plugin_dir_path( BLOCKSY__FILE__ ) );
     define( 'BLOCKSY_URL', plugin_dir_url( BLOCKSY__FILE__ ) );
-    add_action( 'init', function () {
-        /**
-         * Load Blocksy textdomain.
-         *
-         * Load gettext translate for Blocksy text domain.
-         */
-        load_plugin_textdomain( 'blocksy-companion', false, dirname( BLOCKSY_PLUGIN_BASE ) . '/languages' );
-    } );
     if ( !version_compare( PHP_VERSION, '7.0', '>=' ) ) {
         add_action( 'admin_notices', 'blc_fail_php_version' );
     } elseif ( !version_compare( get_bloginfo( 'version' ), '5.0', '>=' ) ) {

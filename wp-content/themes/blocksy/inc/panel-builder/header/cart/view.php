@@ -25,6 +25,10 @@ $has_only_cart = false;
 $has_only_totals = false;
 $has_only_count = false;
 
+if (blocksy_default_akg('has_empty_cart', $atts, 'no') === 'yes') {
+	$attr['data-cart'] = 'hide-empty';
+}
+
 if (isset($render_args['only_item'])) {
 	$has_only_item = $render_args['only_item'];
 }
@@ -226,6 +230,18 @@ if (! empty($aria_label)) {
 		$aria_label
 	);
 }
+
+$icon_classes = [
+	'ct-icon-container',
+	blocksy_visibility_classes(
+		blocksy_akg('cart_icon_visibility', $atts, [
+			'desktop' => true,
+			'tablet' => true,
+			'mobile' => true,
+		])
+	)
+];
+
 ?>
 
 <a class="<?php echo $item_class ?>"
@@ -248,7 +264,7 @@ if (! empty($aria_label)) {
 		);
 	?>
 
-	<span class="ct-icon-container">
+	<span class="<?php echo esc_attr(implode(' ', $icon_classes)) ?>">
 		<?php
 			echo $count_output;
 
@@ -317,7 +333,7 @@ if ($has_only_count) {
 ?>
 
 <div
-	class="<?php echo esc_attr($class) ?>"
+	class="<?php echo esc_attr(trim($class)) ?>"
 	<?php echo blocksy_attr_to_html($attr) ?>>
 
 	<?php

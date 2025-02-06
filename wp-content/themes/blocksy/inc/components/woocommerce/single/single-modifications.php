@@ -16,6 +16,10 @@ function blocksy_woocommerce_has_flexy_view() {
 		$_REQUEST['action'] === 'woocommerce_load_variations'
 	);
 
+	if (isset($_REQUEST['wc-ajax']) && $_REQUEST['wc-ajax'] === 'get_variation') {
+		$is_variations_action = true;
+	}
+
 	if (
 		(
 			blocksy_manager()->screen->is_product()
@@ -304,7 +308,7 @@ add_action(
 		global $blocksy_single_product_summary_buffering_started;
 		$blocksy_single_product_summary_buffering_started = true;
 
-		echo '<div class="product-entry-wrapper ct-constrained-width">';
+		echo '<div class="product-entry-wrapper is-width-constrained">';
 		ob_start();
 	},
 	1

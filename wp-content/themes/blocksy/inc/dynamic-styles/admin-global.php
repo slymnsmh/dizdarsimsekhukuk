@@ -52,12 +52,17 @@ blocksy_theme_get_dynamic_styles([
 	'selector' => $selector
 ]);
 
+global $wp_customize;
+
 if (
 	function_exists('get_current_screen')
 	&&
 	get_current_screen()
 	&&
 	get_current_screen()->is_block_editor()
+	||
+	// Allow styles in customizer for the widget area blocks
+	$wp_customize
 ) {
 	if (get_current_screen()->base === 'post') {
 		blocksy_theme_get_dynamic_styles([
@@ -113,13 +118,9 @@ if (
 		'selector' => ':root',
 		'property' => 'theme-button-border-radius',
 		'value' => blocksy_get_theme_mod( 'buttonRadius',
-			blocksy_spacing_value([
-				'top' => '3px',
-				'left' => '3px',
-				'right' => '3px',
-				'bottom' => '3px',
-			])
-		)
+			blocksy_spacing_value()
+		),
+		'empty_value' => 3,
 	]);
 
 	blocksy_output_spacing([

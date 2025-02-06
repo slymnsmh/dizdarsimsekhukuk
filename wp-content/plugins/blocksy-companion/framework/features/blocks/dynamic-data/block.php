@@ -113,6 +113,10 @@ class DynamicData {
 
 				$fields = $this->get_custom_fields($post_type, $data['post_id']);
 
+				if (in_array($post_type, ['ct_product_tab', 'ct_size_guide'])) {
+					$fields = $this->get_custom_fields('product');
+				}
+
 				wp_send_json_success(apply_filters(
 					'blocksy:general:blocks:dynamic-data:data',
 					[
@@ -217,9 +221,106 @@ class DynamicData {
 				]);
 			}
 		);
+
+		add_filter(
+			'render_block_data',
+			function ($parsed_block) {
+				if ($parsed_block['blockName'] !== 'blocksy/dynamic-data') {
+					return $parsed_block;
+				}
+
+				$element_block_styles = [
+					'overlay' => [
+						'color' => [
+							'background' => '#000000'
+						]
+					],
+				];
+
+				if (isset($parsed_block['attrs']['style']['elements'])) {
+					$element_block_styles = $parsed_block['attrs']['style']['elements'];
+				}
+
+				if (! $element_block_styles) {
+					return $parsed_block;
+				}
+
+				$class_name = wp_get_elements_class_name($parsed_block);
+
+				$updated_class_name = isset($parsed_block['attrs']['className']) ? $parsed_block['attrs']['className'] . " $class_name" : $class_name;
+
+				_wp_array_set(
+					$parsed_block,
+					['attrs', 'className'],
+					$updated_class_name
+				);
+
+				$overlayOpacity = intval(blocksy_akg(
+					'dimRatio',
+					$parsed_block['attrs'],
+					50
+				)) / 100;
+
+				$element_types = [
+					'link' => [
+						'selector'       => ".$class_name a",
+						'hover_selector' => ".$class_name a:hover"
+					],
+
+					'overlay' => [
+						'selector' => ".$class_name .wp-block-cover__background",
+
+						'additional_styles' => [
+							'opacity' => $overlayOpacity
+						]
+					]
+				];
+
+				foreach ($element_types as $element_type => $element_config) {
+					$element_style_object = isset($element_block_styles[$element_type]) ? $element_block_styles[ $element_type ] : null;
+
+					// Process primary element type styles.
+					if ($element_style_object) {
+						blc_call_gutenberg_function(
+							'wp_style_engine_get_styles',
+							[
+								$element_style_object,
+								[
+									'selector' => $element_config['selector'],
+									'context' => 'block-supports',
+								]
+							]
+						);
+
+						if (isset($element_config['additional_styles'])) {
+							blc_get_gutenberg_class('\WP_Style_Engine')::store_css_rule(
+								'block-supports',
+								$element_config['selector'],
+								$element_config['additional_styles']
+							);
+						}
+
+						if (isset($element_style_object[':hover'])) {
+							blc_call_gutenberg_function(
+								'wp_style_engine_get_styles',[
+									$element_style_object[':hover'],
+									[
+										'selector' => $element_config['hover_selector'],
+										'context' => 'block-supports',
+									]
+								]
+							);
+						}
+					}
+				}
+
+				return $parsed_block;
+			},
+			10, 1
+		);
 	}
 
-	public function render($attributes) {
+	public function render($attributes, $content, $block) {
 		if (
 			isset($attributes['lightbox'])
 			&&
@@ -241,13 +342,39 @@ class DynamicData {
 			}
 		}
 
-		return blocksy_render_view(
+		$post_id = get_the_ID();
+
+		$maybe_special_post_id = blocksy_get_special_post_id([
+			'context' => 'local'
+		]);
+
+		$old_post = null;
+
+		if ($maybe_special_post_id && $post_id !== $maybe_special_post_id) {
+			global $post;
+
+			$old_post = $post;
+
+			$post = get_post($maybe_special_post_id);
+			setup_postdata($post);
+		}
+
+		$content = blocksy_render_view(
 			dirname(__FILE__) . '/view.php',
 			[
 				'attributes' => $attributes,
-				'block_instance' => $this
+				'content' => $content,
+				'block_instance' => $this,
+				'block' => $block
 			]
 		);
+
+		if ($old_post !== null) {
+			wp_reset_postdata();
+			$post = $old_post;
+		}
+
+		return $content;
 	}
 
 	public function get_dynamic_styles_for() {
@@ -331,7 +458,8 @@ class DynamicData {
 				->retrieve_dynamic_data_fields([
 					'post_type' => $post_type,
 					'provider' => $provider,
-					'allow_images' => true
+					'allow_images' => true,
+					'post_id' => $post_id,
 				]);
 
 			if (empty($maybe_fields)) {

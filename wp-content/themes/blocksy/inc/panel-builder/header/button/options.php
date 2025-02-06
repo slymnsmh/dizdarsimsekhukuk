@@ -96,9 +96,9 @@ $options = [
 				'header_button_open' => [
 					'label' => __('Click Behavior', 'blocksy'),
 					'type' => (
-						function_exists('blc_fs')
+						function_exists('blc_site_has_feature')
 						&&
-						blc_fs()->can_use_premium_code()
+						blc_site_has_feature('base_pro')
 					) ? 'ct-select' : 'hidden',
 					'value' => 'link',
 					'view' => 'text',
@@ -834,6 +834,7 @@ $options = [
 				'label' => __( 'Border Radius', 'blocksy' ),
 				'type' => 'ct-spacing',
 				'value' => blocksy_spacing_value(),
+				'min' => 0,
 				'responsive' => true
 			],
 
@@ -842,6 +843,7 @@ $options = [
 				'type' => 'ct-spacing',
 				'divider' => 'top',
 				'value' => blocksy_spacing_value(),
+				'min' => 0,
 				'responsive' => true
 			],
 

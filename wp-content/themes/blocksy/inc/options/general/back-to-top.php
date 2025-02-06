@@ -7,7 +7,7 @@
  * @package   Blocksy
  */
 
-$is_pro = function_exists('blc_fs') && blc_fs()->can_use_premium_code();
+$is_pro = function_exists('blc_site_has_feature') && blc_site_has_feature('base_pro');
 
 $options = [
 
@@ -288,13 +288,11 @@ $options = [
 								'type' => 'ct-spacing',
 								'divider' => 'top',
 								'setting' => [ 'transport' => 'postMessage' ],
-								'value' => blocksy_spacing_value([
-									'top' => '2px',
-									'left' => '2px',
-									'right' => '2px',
-									'bottom' => '2px',
-								]),
-								// 'responsive' => true
+								'value' => blocksy_spacing_value(),
+								'inputAttr' => [
+									'placeholder' => '2'
+								],
+								'min' => 0,
 							],
 
 						],

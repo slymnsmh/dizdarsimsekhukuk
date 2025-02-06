@@ -15,6 +15,7 @@ class ThemeAutoloader {
 	 */
 	private static function get_classes_map() {
 		return apply_filters('blocksy_theme_autoloader_classes_map', [
+			'RaiiPattern' => 'inc/classes/raii.php',
 			'WordPressActionsManager' => 'inc/classes/trait-wordpress-actions-manager.php',
 
 			'SearchModifications' => 'inc/components/search.php',
@@ -45,6 +46,8 @@ class ThemeAutoloader {
 			'DbVersioning\\V2072' => 'inc/classes/db-versioning/v2-0-72.php',
 			'DbVersioning\\V2073' => 'inc/classes/db-versioning/v2-0-73.php',
 			'DbVersioning\\V2074' => 'inc/classes/db-versioning/v2-0-74.php',
+			'DbVersioning\\V2075' => 'inc/classes/db-versioning/v2-0-75.php',
+			'DbVersioning\\V2076' => 'inc/classes/db-versioning/v2-0-76.php',
 
 			'DbVersioning\\DefaultValuesCleaner' => 'inc/classes/db-versioning/utils/db-default-values-cleaner.php',
 

@@ -131,14 +131,14 @@ $overridable_card_options = [
 						[
 							'prefix' => $prefix,
 							'id' => $prefix . 'archive_order_meta_first',
-							'loader_selector' => '.entry-meta:1',
+							'loader_selector' => '.entries .entry-meta:1',
 							'container_inclusive' => false
 						],
 
 						[
 							'prefix' => $prefix,
 							'id' => $prefix . 'archive_order_meta_second',
-							'loader_selector' => '.entry-meta:2',
+							'loader_selector' => '.entries .entry-meta:2',
 							'container_inclusive' => false
 						],
 					],
@@ -361,9 +361,9 @@ $overridable_card_options = [
 
 								[
 									(
-										function_exists('blc_fs')
+										function_exists('blc_site_has_feature')
 										&&
-										blc_fs()->can_use_premium_code()
+										blc_site_has_feature('base_pro')
 									) ? [
 										'has_archive_video_thumbnail' => [
 											'label' => __( 'Video Thumbnail', 'blocksy' ),
@@ -603,8 +603,7 @@ $overridable_card_options = [
 							]
 						]
 					],
-				], trim($prefix, '_')),
-
+				], trim($prefix, '_'), $prefix . 'archive_order_skip'),
 			],
 
 			$has_card_matching_template ? [] : [
@@ -1250,7 +1249,37 @@ $overridable_card_options = [
 							'type' => 'ct-spacing',
 							'sync' => 'live',
 							'value' => blocksy_spacing_value(),
+							'min' => 0,
 							'responsive' => true
+						],
+					],
+				],
+
+				blocksy_rand_md5() =>  [
+					'type' => 'ct-condition',
+					'condition' => [
+						$prefix . 'structure' => 'simple',
+						$prefix . 'card_type' => 'simple',
+					],
+					'options' => [
+
+						$prefix . 'cardThumbShadow' => [
+							'label' => __( 'Featured Image Shadow', 'blocksy' ),
+							'type' => 'ct-box-shadow',
+							'sync' => 'live',
+							'responsive' => true,
+							'divider' => 'top',
+							'value' => blocksy_box_shadow_value([
+								'enable' => false,
+								'h_offset' => 0,
+								'v_offset' => 12,
+								'blur' => 18,
+								'spread' => -6,
+								'inset' => false,
+								'color' => [
+									'color' => 'rgba(34, 56, 101, 0.04)',
+								],
+							])
 						],
 
 						$prefix . 'cardDivider' => [
@@ -1437,6 +1466,7 @@ $overridable_card_options = [
 						'type' => 'ct-spacing',
 						'divider' => 'top',
 						'value' => blocksy_spacing_value(),
+						'min' => 0,
 						'responsive' => true
 					],
 
@@ -1585,7 +1615,7 @@ $options = [
 						'responsive' => true,
 						'hasGroupRevertButton' => true,
 						'options' => [
-							
+
 							$prefix . 'columns' => [
 								'label' => false,
 								'desc' => __( 'Number of columns', 'blocksy' ),

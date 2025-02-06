@@ -43,7 +43,11 @@ class Blocksy_Static_Css_Files {
 					is_account_page()
 				)
 				||
-				has_shortcode($post->post_content, 'product_page')
+				(
+					$post
+					&&
+					has_shortcode($post->post_content, 'product_page')
+				)
 			)
 		);
 
@@ -238,6 +242,8 @@ class Blocksy_Static_Css_Files {
 							is_customize_preview()
 							||
 							(
+								$post
+								&&
 								has_shortcode(
 									$post->post_content,
 									'blocksy_posts'
@@ -249,7 +255,26 @@ class Blocksy_Static_Css_Files {
 								) !== false
 							)
 							||
-							has_shortcode($post->post_content, 'product_page')
+							(
+								$post
+								&&
+								has_shortcode($post->post_content, 'product_page')
+							)
+							||
+							(
+								$post
+								&&
+								(
+									has_block('blocksy/query', $post->post_content)
+									||
+									has_block('blocksy/tax-query', $post->post_content)
+								)
+								&&
+								strpos(
+									$post->post_content,
+									'"has_slideshow":"yes"'
+								) !== false
+							)
 						)
 					)
 					||
@@ -259,7 +284,11 @@ class Blocksy_Static_Css_Files {
 							&&
 							is_woocommerce()
 							||
-							has_shortcode($post->post_content, 'products')
+							(
+								$post
+								&&
+								has_shortcode($post->post_content, 'products')
+							)
 						)
 						&&
 						isset($woo_extra_settings['features']['added-to-cart-popup'])
@@ -298,12 +327,12 @@ class Blocksy_Static_Css_Files {
 				'enabled' => class_exists('ET_Builder_Plugin')
 			],
 
-			[
-				'id' => 'ct-vc-styles',
-				'url' => '/static/bundle/vc.min.css',
-				'deps' => ['ct-main-styles'],
-				'enabled' => defined('VCV_Version')
-			],
+			// [
+			// 	'id' => 'ct-vc-styles',
+			// 	'url' => '/static/bundle/vc.min.css',
+			// 	'deps' => ['ct-main-styles'],
+			// 	'enabled' => defined('VCV_Version')
+			// ],
 
 			[
 				'id' => 'ct-cf-7-styles',

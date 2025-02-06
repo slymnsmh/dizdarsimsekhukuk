@@ -89,9 +89,9 @@ foreach ($woo_card_layout as $layer) {
 		}
 
 		if ($layer['id'] === 'product_brands') {
-			$brand_logo_size = blocksy_akg('brand_logo_size', $layer, 100);
+			$brand_logo_size = blocksy_akg('brand_logo_size', $layer, 60);
 
-			if ($brand_logo_size !== 100) {
+			if ($brand_logo_size !== 60) {
 				blocksy_output_responsive([
 					'css' => $css,
 					'tablet_css' => $tablet_css,
@@ -237,13 +237,9 @@ blocksy_output_spacing([
 	'selector' => '[data-products] .product',
 	'property' => 'theme-border-radius',
 	'value' => blocksy_get_theme_mod( 'cardProductRadius',
-		blocksy_spacing_value([
-			'top' => '3px',
-			'left' => '3px',
-			'right' => '3px',
-			'bottom' => '3px',
-		])
-	)
+		blocksy_spacing_value()
+	),
+	'empty_value' => 3,
 ]);
 
 
@@ -622,6 +618,24 @@ if ($shop_cards_type === 'type-2') {
 			],
 		])),
 		'responsive' => true
+	]);
+
+	blocksy_output_border([
+		'css' => $css,
+		'tablet_css' => $tablet_css,
+		'mobile_css' => $mobile_css,
+		'selector' => '[data-products="type-2"]',
+		'variableName' => 'card-border',
+		'value' => blocksy_get_theme_mod('cardProductBorder'),
+		'default' => [
+			'width' => 1,
+			'style' => 'none',
+			'color' => [
+				'color' => 'rgba(0, 0, 0, 0.05)',
+			],
+		],
+		'responsive' => true,
+		'skip_none' => true
 	]);
 }
 

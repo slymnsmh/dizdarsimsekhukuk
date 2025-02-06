@@ -159,9 +159,9 @@ class Blocksy_Header_Builder_Elements {
 				[
 					'id' => 'offcanvas',
 					'class' => $class,
-					'data-behaviour' => $behavior
-					// ,
-					// 'data-device' => $args['device']
+					'data-behaviour' => $behavior,
+					'aria-label' => __('Offcanvas modal', 'blocksy'),
+					'inert' => ''
 				],
 				$position_output
 			),
@@ -244,7 +244,26 @@ class Blocksy_Header_Builder_Elements {
 			$post_type[] = $single_post_type;
 		}
 
-		if (count(array_keys($search_through)) === count($post_type)) {
+		// All subtypes used in the REST API Post Search Handler.
+		// wp-includes/rest-api/search/class-wp-rest-post-search-handler.php
+		$rest_api_all_subtypes = array_diff(
+			array_values(
+				get_post_types(
+					[
+						'public' => true,
+						'show_in_rest' => true
+					],
+					'names'
+				)
+			),
+			['attachment']
+		);
+
+		if (
+			count(array_keys($search_through)) === count($post_type)
+			&&
+			count($post_type) === count($rest_api_all_subtypes)
+		) {
 			$post_type = [];
 		}
 
@@ -284,7 +303,7 @@ class Blocksy_Header_Builder_Elements {
 
 		?>
 
-		<div id="search-modal" class="ct-panel" data-behaviour="modal">
+		<div id="search-modal" class="ct-panel" data-behaviour="modal" aria-label="<?php echo __('Search modal', 'blocksy') ?>" inert>
 			<div class="ct-panel-actions">
 				<button class="ct-toggle-close" data-type="<?php echo $search_close_button_type ?>" aria-label="<?php echo __('Close search modal', 'blocksy') ?>">
 					<?php echo $search_modal_close_icon ?>

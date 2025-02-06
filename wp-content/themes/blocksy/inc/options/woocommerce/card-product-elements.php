@@ -26,7 +26,7 @@ $card_additional_actions_options = apply_filters(
 					]
 				]
 			],
-	
+
 			blocksy_rand_md5() => [
 				'type' => 'ct-condition',
 				'condition' => [
@@ -272,7 +272,7 @@ $options = [
 									'prefix' => 'woo_categories',
 									'loader_selector' => '[data-products] > li'
 								]),
-								
+
 								blocksy_sync_whole_page([
 									'id' => 'woo_card_layout_meta',
 									'prefix' => 'woo_categories',
@@ -353,9 +353,9 @@ $options = [
 											],
 
 											(
-												function_exists('blc_fs')
+												function_exists('blc_site_has_feature')
 												&&
-												blc_fs()->can_use_premium_code()
+												blc_site_has_feature('base_pro')
 											) ? [
 												'has_archive_video_thumbnail' => [
 													'label' => __( 'Video Thumbnail', 'blocksy' ),
@@ -1152,6 +1152,14 @@ $options = [
 
 							],
 						],
+					],
+
+					$card_additional_actions_design_options,
+
+					[
+						blocksy_rand_md5() => [
+							'type' => 'ct-divider',
+						],
 
 						blocksy_rand_md5() => [
 							'type' => 'ct-condition',
@@ -1162,8 +1170,8 @@ $options = [
 									'label' => __( 'Card Background Color', 'blocksy' ),
 									'type'  => 'ct-color-picker',
 									'design' => 'block:right',
+									'divider' => 'bottom',
 									'responsive' => true,
-									'divider' => 'top:full',
 									'setting' => [ 'transport' => 'postMessage' ],
 									'value' => [
 										'default' => [
@@ -1184,7 +1192,7 @@ $options = [
 									'label' => __( 'Card Shadow', 'blocksy' ),
 									'type' => 'ct-box-shadow',
 									'responsive' => true,
-									'divider' => 'top',
+									'divider' => 'bottom',
 									'setting' => [ 'transport' => 'postMessage' ],
 									'value' => blocksy_box_shadow_value([
 										'enable' => true,
@@ -1199,13 +1207,25 @@ $options = [
 									])
 								],
 
+								'cardProductBorder' => [
+									'label' => __( 'Card Border', 'blocksy' ),
+									'type' => 'ct-border',
+									'design' => 'block',
+									'sync' => 'live',
+									'divider' => 'bottom',
+									'responsive' => true,
+									'value' => [
+										'width' => 1,
+										'style' => 'none',
+										'color' => [
+											'color' => 'rgba(0, 0, 0, 0.05)',
+										],
+									]
+								],
+
 							],
 						],
-					],
 
-					$card_additional_actions_design_options,
-
-					[
 						'cardProductRadius' => [
 							'label' => [
 								__('Image Border Radius', 'blocksy') => [
@@ -1217,14 +1237,12 @@ $options = [
 								]
 							],
 							'type' => 'ct-spacing',
-							'divider' => 'top:full',
 							'setting' => [ 'transport' => 'postMessage' ],
-							'value' => blocksy_spacing_value([
-								'top' => '3px',
-								'left' => '3px',
-								'right' => '3px',
-								'bottom' => '3px',
-							]),
+							'value' => blocksy_spacing_value(),
+							'inputAttr' => [
+								'placeholder' => '3'
+							],
+							'min' => 0,
 							'responsive' => true
 						],
 					]

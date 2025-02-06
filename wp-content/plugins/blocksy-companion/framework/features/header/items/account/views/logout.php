@@ -7,7 +7,7 @@ $login_label = do_shortcode(
 			$atts,
 			__('Login', 'blocksy-companion')
 		),
-		'header:' . $section_id . ':' . $item_id . ':login_label'
+		$panel_type . ':' . $section_id . ':' . $item_id . ':login_label'
 	)
 );
 
@@ -18,6 +18,16 @@ $loggedout_account_label_visibility = blocksy_akg(
 		'desktop' => false,
 		'tablet' => false,
 		'mobile' => false,
+	]
+);
+
+$loggedout_icon_visibility = blocksy_akg(
+	'loggedout_icon_visibility',
+	$atts,
+	[
+		'desktop' => true,
+		'tablet' => true,
+		'mobile' => true,
 	]
 );
 
@@ -73,6 +83,10 @@ if (blocksy_akg('logged_out_style', $atts, 'icon') === 'icon') {
 					$atts,
 					['icon' => 'blc blc-user']
 				),
+				'icon_container' => false,
+				'icon_html_atts' => [
+					'class' => trim('ct-icon ' . blocksy_visibility_classes($loggedout_icon_visibility))
+				]
 			]);
 		}
 

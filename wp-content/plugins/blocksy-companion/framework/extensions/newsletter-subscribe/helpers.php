@@ -51,7 +51,7 @@ function blc_ext_newsletter_subscribe_form() {
 		$args['list_id'] = blocksy_get_theme_mod('newsletter_subscribe_list_id', '');
 	}
 
-	$args['class'] = 'ct-newsletter-subscribe-container ct-constrained-width ' . blocksy_visibility_classes(
+	$args['class'] = 'ct-newsletter-subscribe-container is-width-constrained ' . blocksy_visibility_classes(
 		blocksy_get_theme_mod('newsletter_subscribe_subscribe_visibility', [
 			'desktop' => true,
 			'tablet' => true,
@@ -81,7 +81,10 @@ function blc_ext_newsletter_subscribe_output_form($args = []) {
 		'name_label' => __('Your name', 'blocksy-companion'),
 		'email_label' => __('Your email', 'blocksy-companion'),
 		'list_id' => '',
-		'class' => ''
+		'class' => '',
+
+		'container_style' => 'default',
+		'form_style' => 'inline'
 	]);
 
 	$has_name = $args['has_name'] === 'yes';
@@ -93,10 +96,15 @@ function blc_ext_newsletter_subscribe_output_form($args = []) {
 		return '';
 	}
 
-	if ($provider_data['provider'] !== 'mailchimp') {
-		$settings = $manager->get_settings();
-		$provider_data['provider'] .= ':' . $settings['list_id'];
+	$settings = $manager->get_settings();
+
+	$list_id = $settings['list_id'];
+
+	if (! empty($args['list_id'])) {
+		$list_id = $args['list_id'];
 	}
+
+	$provider_data['provider'] .= ':' . $list_id;
 
 	$form_url = $provider_data['form_url'];
 	$has_gdpr_fields = $provider_data['has_gdpr_fields'];
@@ -133,7 +141,22 @@ function blc_ext_newsletter_subscribe_output_form($args = []) {
 			class="ct-newsletter-subscribe-form"
 			<?php echo $skip_submit_output ?>>
 
-			<div class="ct-newsletter-subscribe-form-elements" data-columns="<?php echo $fields_number ?>">
+			<div
+				<?php
+					echo blocksy_attr_to_html(
+						array_merge(
+							[
+								'class' => 'ct-newsletter-subscribe-form-elements',
+							],
+							$args['container_style'] !== 'default' ? [
+								'data-container' => $args['container_style']
+							] : [],
+							$args['form_style'] === 'inline' ? [
+								'data-columns' => $fields_number
+							] : []
+						)
+					)
+			?>>
 				<?php if ($has_name) { ?>
 					<input
 						type="text"

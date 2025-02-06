@@ -7,14 +7,6 @@
  * @package Blocksy
  */
 add_action('after_setup_theme', function () {
-	/**
-	 * Make theme available for translation.
-	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on Word, use a find and replace
-	 * to change 'blocksy' to the name of your theme in all the template files.
-	 */
-	load_theme_textdomain('blocksy', get_template_directory() . '/languages');
-
 	// Add default posts and comments RSS feed links to head.
 	add_theme_support('automatic-feed-links');
 	add_theme_support('responsive-embeds');
@@ -478,7 +470,7 @@ add_action(
 				'name' => esc_html__( 'Main Sidebar', 'blocksy' ),
 				'id' => 'sidebar-1',
 				'description' => esc_html__( 'Add widgets here.', 'blocksy' ),
-				'before_widget' => '<div class="ct-widget %2$s" id="%1$s">',
+				'before_widget' => '<div class="ct-widget is-layout-flow %2$s" id="%1$s">',
 				'after_widget' => '</div>',
 				'before_title' => '<' . $sidebar_title_tag . ' class="widget-title">',
 				'after_title' => '</' . $sidebar_title_tag . '>',
@@ -494,7 +486,7 @@ add_action(
 				[
 					'id' => 'ct-footer-sidebar-' . $i,
 					'name' => esc_html__('Footer Widget Area ', 'blocksy') . $i,
-					'before_widget' => '<div class="ct-widget %2$s" id="%1$s">',
+					'before_widget' => '<div class="ct-widget is-layout-flow %2$s" id="%1$s">',
 					'after_widget' => '</div>',
 					'before_title' => '<' . $sidebar_title_tag . ' class="widget-title">',
 					'after_title' => '</' . $sidebar_title_tag . '>',
@@ -524,6 +516,7 @@ require get_template_directory() . '/inc/classes/blocksy-blocks-parser.php';
 require get_template_directory() . '/inc/components/global-attrs.php';
 require get_template_directory() . '/inc/components/vertical-spacing.php';
 require get_template_directory() . '/inc/components/customizer-builder.php';
+require get_template_directory() . '/inc/components/skip-to-content-link.php';
 
 require get_template_directory() . '/inc/components/emoji-scripts.php';
 require get_template_directory() . '/inc/schema-org.php';
@@ -545,6 +538,7 @@ require get_template_directory() . '/inc/components/single/content-helpers.php';
 require get_template_directory() . '/inc/components/single/excerpt.php';
 require get_template_directory() . '/inc/components/single/page-elements.php';
 require get_template_directory() . '/inc/components/single/comments.php';
+require get_template_directory() . '/inc/components/single/related-posts.php';
 
 require get_template_directory() . '/inc/components/menus.php';
 require get_template_directory() . '/inc/components/post-meta.php';
@@ -586,6 +580,8 @@ require get_template_directory() . '/inc/integrations/bbpress.php';
 require get_template_directory() . '/inc/integrations/fluent-forms.php';
 require get_template_directory() . '/inc/integrations/coauthors.php';
 require get_template_directory() . '/inc/integrations/disqus.php';
+require get_template_directory() . '/inc/integrations/secupress.php';
+require get_template_directory() . '/inc/integrations/wpc-variations-table.php';
 
 if (function_exists('get_rocket_cdn_url')) {
 	require get_template_directory() . '/inc/integrations/wprocket.php';
